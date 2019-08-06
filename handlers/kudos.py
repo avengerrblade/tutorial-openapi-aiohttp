@@ -72,15 +72,11 @@ async def resource_put(request, kudos_id):
     """Updates and returns kudos with kudos_id and 200."""
     update_kudo = json.loads(request._read_bytes)
 
-    # there's an interesting happenstance where SOMETIMES updated_dt < created_dt
-    # hack by definitely adding 1s to updated_dt
-    updated_dt = main.serialize(datetime.datetime.utcnow() + datetime.timedelta(seconds=1))
-
     app = await main.get_app()
     async with app.app['db_conn'].acquire() as conn:
         async with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as db:
-            sql = "UPDATE kudos SET kudo=%(update_kudo)s, updated_dt=%(updated_dt)s WHERE id=%(kudos_id)s RETURNING *"
-            await db.execute(sql, {'update_kudo': update_kudo['kudo'], 'updated_dt': updated_dt, 'kudos_id': kudos_id})
+            sql = "UPDATE kudos SET kudo = %(update_kudo)s, updated_dt = NOW() WHERE id=%(kudos_id)s RETURNING *"
+            await db.execute(sql, {'update_kudo': update_kudo['kudo'], 'kudos_id': kudos_id})
             row = await db.fetchone()
 
     data = {
