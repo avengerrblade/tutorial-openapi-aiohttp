@@ -2,7 +2,27 @@ components:
   callbacks: {}
   links: {}
   requestBodies: {}
-  schemas: {}
+  schemas:
+    Kudo:
+      properties:
+        created_dt:
+          description: This is the date when the kudo was first created.
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          description: Unique identifier
+          format: int32
+          readOnly: true
+          type: integer
+        kudo:
+          description: Kudo text
+          type: string
+        updated_dt:
+          description: This is the date when the kudo was last updated.
+          format: date-time
+          readOnly: true
+          type: string
   securitySchemes: {}
 info:
   contact:
@@ -24,6 +44,78 @@ paths:
             This is primarily used just to have a default endpoint to test getting
             the app running.
       summary: Root path
+      x-openapi-router-controller: handlers
+  /hello-world:
+    get:
+      description: Hello world endpoint
+      operationId: hello_world.resource_get
+      responses:
+        '200':
+          description: This should return a 'hello world'.
+      summary: Hello world path
+      x-openapi-router-controller: handlers
+  /kudos:
+    get:
+      description: Kudos collection GET endpoint
+      operationId: kudos.collection_get
+      responses:
+        '200':
+          description: This should return Kudo schema(s).
+      summary: Kudos collection GET path
+      x-openapi-router-controller: handlers
+    post:
+      description: Kudos collection POST endpoint
+      operationId: kudos.collection_post
+      responses:
+        '201':
+          description: This should return a Kudo schema.
+      summary: Kudos collection POST path
+      x-openapi-router-controller: handlers
+  /kudos/{kudos_id}:
+    delete:
+      description: Kudos resource DELETE endpoint
+      operationId: kudos.resource_delete
+      parameters:
+      - description: Numeric ID of the kudos to DELETE.
+        in: path
+        name: kudos_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: This should return an empty body.
+      summary: Kudos resource DELETE path
+      x-openapi-router-controller: handlers
+    get:
+      description: Kudos resource GET endpoint
+      operationId: kudos.resource_get
+      parameters:
+      - description: Numeric ID of the kudos to GET.
+        in: path
+        name: kudos_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: This should return a Kudo schema.
+      summary: Kudos resource GET path
+      x-openapi-router-controller: handlers
+    put:
+      description: Kudos resource PUT endpoint
+      operationId: kudos.resource_put
+      parameters:
+      - description: Numeric ID of the kudos to PUT.
+        in: path
+        name: kudos_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: This should return a Kudo schema.
+      summary: Kudos resource PUT path
       x-openapi-router-controller: handlers
 security: []
 servers:

@@ -24,6 +24,84 @@ paths:
           description: >-
             This is a permanent redirect to the Github landing page & README. This is primarily
             used just to have a default endpoint to test getting the app running.
+  /hello-world:
+    get:
+      summary: Hello world path
+      description: Hello world endpoint
+      x-openapi-router-controller: handlers
+      operationId: hello_world.resource_get
+      responses:
+        '200':
+          description: >-
+            This should return a 'hello world'.
+  /kudos:
+    get:
+      summary: Kudos collection GET path
+      description: Kudos collection GET endpoint
+      x-openapi-router-controller: handlers
+      operationId: kudos.collection_get
+      responses:
+        '200':
+          description: >-
+            This should return Kudo schema(s).
+    post:
+      summary: Kudos collection POST path
+      description: Kudos collection POST endpoint
+      x-openapi-router-controller: handlers
+      operationId: kudos.collection_post
+      responses:
+        '201':
+          description: >-
+            This should return a Kudo schema.
+  /kudos/{kudos_id}:
+    get:
+      summary: Kudos resource GET path
+      description: Kudos resource GET endpoint
+      parameters:
+        - in: path
+          name: kudos_id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the kudos to GET.
+      x-openapi-router-controller: handlers
+      operationId: kudos.resource_get
+      responses:
+        '200':
+          description: >-
+            This should return a Kudo schema.
+    put:
+      summary: Kudos resource PUT path
+      description: Kudos resource PUT endpoint
+      parameters:
+        - in: path
+          name: kudos_id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the kudos to PUT.
+      x-openapi-router-controller: handlers
+      operationId: kudos.resource_put
+      responses:
+        '200':
+          description: >-
+            This should return a Kudo schema.
+    delete:
+      summary: Kudos resource DELETE path
+      description: Kudos resource DELETE endpoint
+      parameters:
+        - in: path
+          name: kudos_id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the kudos to DELETE.
+      x-openapi-router-controller: handlers
+      operationId: kudos.resource_delete
+      responses:
+        '204':
+          description: >-
+            This should return an empty body.
 components:
   schemas:
     Kudo:
